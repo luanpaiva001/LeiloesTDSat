@@ -140,16 +140,39 @@ public class cadastroVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_cadastroNomeActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        ProdutosDTO produto = new ProdutosDTO();
         String nome = cadastroNome.getText();
-        String valor = cadastroValor.getText();
-        String status = "A Venda";
-        produto.setNome(nome);
-        produto.setValor(Integer.parseInt(valor));
-        produto.setStatus(status);
-        
-        ProdutosDAO produtodao = new ProdutosDAO();
-        produtodao.cadastrarProduto(produto);
+String valorTexto = cadastroValor.getText();
+
+if (nome.isEmpty() || valorTexto.isEmpty()) {
+    javax.swing.JOptionPane.showMessageDialog(
+        this,
+        "Preencha o nome e o valor do produto."
+    );
+    return;
+}
+
+try {
+    int valor = Integer.parseInt(valorTexto);
+
+    ProdutosDTO produto = new ProdutosDTO();
+
+    produto.setNome(nome);
+    produto.setValor(valor);
+    produto.setStatus("A Venda");
+
+    ProdutosDAO produtodao = new ProdutosDAO();
+    produtodao.cadastrarProduto(produto);
+
+    cadastroNome.setText("");
+    cadastroValor.setText("");
+
+} catch (NumberFormatException e) {
+
+    javax.swing.JOptionPane.showMessageDialog(
+        this,
+        "Digite apenas números no valor."
+    );
+}
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
